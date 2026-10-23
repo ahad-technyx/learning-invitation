@@ -9,6 +9,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { IslamicOrnament } from "./IslamicOrnament";
+import { Reveal } from "./Reveal";
 
 const BENEFITS = [
   {
@@ -57,24 +58,26 @@ export function WhyChooseUs() {
   return (
     <section id="why-us" className="py-20 sm:py-28 bg-cream-warm">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="text-center max-w-2xl mx-auto">
-          <IslamicOrnament className="h-5 w-56 mx-auto text-gold-elegant" />
-          <h2 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight text-emerald-deep">
-            Why Choose Noor-ul-Quran Academy?
-          </h2>
-          <p className="mt-4 text-forest-dark/75">
-            Thoughtful teaching, a respectful environment, and real care for
-            every student&apos;s journey with the Quran.
-          </p>
-        </div>
+        <Reveal>
+          <div className="text-center max-w-2xl mx-auto">
+            <IslamicOrnament className="h-5 w-56 mx-auto text-gold-elegant" />
+            <h2 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight text-emerald-deep">
+              Why Choose Noor-ul-Quran Academy?
+            </h2>
+            <p className="mt-4 text-forest-dark/75">
+              Thoughtful teaching, a respectful environment, and real care for
+              every student&apos;s journey with the Quran.
+            </p>
+          </div>
+        </Reveal>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <Reveal stagger className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {BENEFITS.map(({ icon: Icon, title, body }) => (
             <div
               key={title}
-              className="group rounded-2xl border border-gold-elegant/20 bg-white p-6 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              className="reveal-on-scroll group rounded-2xl border border-gold-elegant/20 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
             >
-              <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-sage-muted text-emerald-deep transition group-hover:bg-emerald-deep group-hover:text-gold-elegant">
+              <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-sage-muted text-emerald-deep transition group-hover:bg-emerald-deep group-hover:text-gold-elegant group-hover:rotate-6">
                 <Icon size={20} />
               </div>
               <h3 className="mt-4 text-base font-bold text-emerald-deep">
@@ -85,7 +88,7 @@ export function WhyChooseUs() {
               </p>
             </div>
           ))}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

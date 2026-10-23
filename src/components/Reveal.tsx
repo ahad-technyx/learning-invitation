@@ -23,28 +23,51 @@ export function Reveal({
     const node = ref.current;
     if (!node) return;
 
-    if (
+    const reveal = () => {
+      requestAnimationFrame(() => node.classList.add("is-visible"));
+    };
+
+    const prefersReducedMotion =
       typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      node.classList.add("is-visible");
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (prefersReducedMotion) {
+      reveal();
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -60px 0px" }
-    );
+    const rect = node.getBoundingClientRect();
+    const alreadyInViewport =
+      rect.top < window.innerHeight && rect.bottom > 0;
 
-    observer.observe(node);
-    return () => observer.disconnect();
+    if (alreadyInViewport) {
+      reveal();
+    }
+
+    let observer: IntersectionObserver | null = null;
+    if (typeof IntersectionObserver !== "undefined") {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              reveal();
+              observer?.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.05, rootMargin: "0px 0px -40px 0px" }
+      );
+      observer.observe(node);
+    } else {
+      reveal();
+    }
+
+    const safetyTimer = window.setTimeout(reveal, 1500);
+
+    return () => {
+      observer?.disconnect();
+      window.clearTimeout(safetyTimer);
+    };
   }, []);
 
   const fromCls =

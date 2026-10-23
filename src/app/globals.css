@@ -126,11 +126,20 @@ section[id] {
   transform: translateY(24px);
   transition: opacity 0.9s ease-out, transform 0.9s ease-out;
   will-change: opacity, transform;
+  animation: revealSafety 0.5s ease-out 2.5s forwards;
 }
 
 .reveal-on-scroll.is-visible {
   opacity: 1;
   transform: translateY(0);
+  animation: none;
+}
+
+@keyframes revealSafety {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .reveal-on-scroll.from-left  { transform: translateX(-28px); }
